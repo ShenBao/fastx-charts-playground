@@ -1,0 +1,368 @@
+// 传入数据生成 option
+    const dataList = [
+        {
+            name: '打车费',
+            val: 1230,//存储数据的地方
+            itemStyle: {
+                color: 'rgba(56, 136, 235, 1)',
+            },
+        },
+        {
+            name: '住宿费',
+            val: 300,//存储数据的地方
+            itemStyle: {
+                color: 'rgba(113, 70, 159, 1)',
+            },
+        },
+        {
+            name: '办公费',
+            val: 800,//存储数据的地方
+            itemStyle: {
+                color: 'rgba(237, 171, 87, 1)',
+            },
+        },
+        {
+            name: '差旅费',
+            val: 500,//存储数据的地方
+            itemStyle: {
+                color: 'rgba(231, 89, 77, 1)',
+            },
+        },
+    ];
+    const heightProportion = 0.3 // 柱状扇形的高度比例
+
+
+    // 生成扇形的曲面参数方程，用于 series-surface.parametricEquation
+    function getParametricEquation(startRatio, endRatio, isSelected, isHovered, k, height) {
+
+        // 计算
+        let midRatio = (startRatio + endRatio) / 3;
+
+        let startRadian = startRatio * Math.PI * 2;
+        let endRadian = endRatio * Math.PI * 2;
+        let midRadian = midRatio * Math.PI * 2;
+
+        // 如果只有一个扇形，则不实现选中效果。
+        if (startRatio === 0 && endRatio === 1) {
+            isSelected = false;
+        }
+
+        // 通过扇形内径/外径的值，换算出辅助参数 k（默认值 1/3）
+        k = typeof k !== 'undefined' ? k : 1 / 3;
+
+        // 计算选中效果分别在 x 轴、y 轴方向上的位移（未选中，则位移均为 0）
+        let offsetX = isSelected ? Math.cos(midRadian) * 0.1 : 0;
+        let offsetY = isSelected ? Math.sin(midRadian) * 0.1 : 0;
+
+        // 计算高亮效果的放大比例（未高亮，则比例为 1）
+        let hoverRate = isHovered ? 1.1 : 1;
+
+        // 返回曲面参数方程
+        return {
+            u: {
+                min: -Math.PI,
+                max: Math.PI * 3,
+                step: Math.PI / 32
+            },
+
+            v: {
+                min: 0,
+                max: Math.PI * 2,
+                step: Math.PI / 20
+            },
+
+            x: function (u, v) {
+                if (u < startRadian) {
+                    return offsetX + Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate;
+                }
+                if (u > endRadian) {
+                    return offsetX + Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate;
+                }
+                return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
+            },
+
+            y: function (u, v) {
+                if (u < startRadian) {
+                    return offsetY + Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate;
+                }
+                if (u > endRadian) {
+                    return offsetY + Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate;
+                }
+                return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
+            },
+
+            z: function (u, v) {
+                if (u < -Math.PI * 0.5) {
+                    return Math.sin(u);
+                }
+                if (u > Math.PI * 2.5) {
+                    return Math.sin(u);
+                }
+                return Math.sin(v) > 0 ? heightProportion * height : -1;
+            }
+        };
+    };
+
+    // 生成模拟 3D 饼图的配置项
+    function getPie3D(pieData, internalDiameterRatio) {
+
+        let series = [];
+        let sumValue = 0;
+        let startValue = 0;
+        let endValue = 0;
+        let legendData = [];
+        let linesSeries = []; // line3D模拟label指示线
+        let k = typeof internalDiameterRatio !== 'undefined' ? (1 - internalDiameterRatio) / (1 + internalDiameterRatio) : 1 / 3;
+
+        // 为每一个饼图数据，生成一个 series-surface 配置
+        for (let i = 0; i < pieData.length; i++) {
+
+            sumValue += pieData[i].value;
+
+            let seriesItem = {
+                name: typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
+                type: 'surface',
+                parametric: true,
+                wireframe: {
+                    show: false
+                },
+                pieData: pieData[i],
+                pieStatus: {
+                    selected: false,
+                    hovered: false,
+                    k: k
+                }
+            };
+
+            if (typeof pieData[i].itemStyle != 'undefined') {
+
+                let itemStyle = {};
+
+                typeof pieData[i].itemStyle.color != 'undefined' ? itemStyle.color = pieData[i].itemStyle.color : null;
+                typeof pieData[i].itemStyle.opacity != 'undefined' ? itemStyle.opacity = pieData[i].itemStyle.opacity : null;
+
+                seriesItem.itemStyle = itemStyle;
+            }
+            series.push(seriesItem);
+        }
+
+        // 使用上一次遍历时，计算出的数据和 sumValue，调用 getParametricEquation 函数，
+        // 向每个 series-surface 传入不同的参数方程 series-surface.parametricEquation，也就是实现每一个扇形。
+        for (let i = 0; i < series.length; i++) {
+            endValue = startValue + series[i].pieData.value;
+            // console.log(series[i]);
+            series[i].pieData.startRatio = startValue / sumValue;
+            series[i].pieData.endRatio = endValue / sumValue;
+            series[i].parametricEquation = getParametricEquation(series[i].pieData.startRatio,
+                series[i].pieData.endRatio,
+                false,
+                false,
+                k,
+                series[i].pieData.value
+            );
+
+            startValue = endValue;
+
+            // 计算label指示线的起始和终点位置
+            // 计算扇区中心角度（弧度）
+            const midRadian = (series[i].pieData.startRatio + series[i].pieData.endRatio) * Math.PI;
+            // 计算扇区外缘顶部坐标（v=0时）
+            const radius = 1 + k; // 外径公式
+            const posX = Math.cos(midRadian) * radius;
+            const posY = Math.sin(midRadian) * radius;
+            // 获取该扇区实际高度
+            const posZ = heightProportion * series[i].pieData.value; 
+            let flag = ((midRadian >= 0 && midRadian <= Math.PI / 2) || (midRadian >= 3 * Math.PI / 2 && midRadian <= Math.PI * 2)) ? 1 : -1;
+            let color = pieData[i].itemStyle.color;
+            let turningPosArr = [
+                posX * (1.1) + (i * 0.1 * flag) + (flag < 0 ? -0.2 : 0), 
+                posY * (1.1) + (i * 0.1 * flag) + (flag < 0 ? -0.2 : 0), 
+                posZ * (1)
+            ]
+            let endPosArr = [
+                posX * (1.2) + (i * 0.1 * flag) + (flag < 0 ? -0.2 : 0), 
+                posY * (1.2) + (i * 0.1 * flag) + (flag < 0 ? -0.2 : 0), 
+                posZ * (3)
+            ]
+
+            linesSeries.push({
+                    type: 'line3D',
+                    lineStyle: {
+                        color: color,
+                    },
+                    data: [[posX, posY, posZ], turningPosArr, endPosArr]
+                },
+                // https://www.isqqw.com/assets/layout/images/person.png
+                {
+                    type: 'scatter3D',
+                    label: {
+                        show: true,
+                        distance: 0,
+                        position: 'center',
+                        textStyle: {
+                            color: '#ffffff',
+                            backgroundColor: color,
+                            borderWidth: 2,
+                            fontSize: 14,
+                            padding: 10,
+                            borderRadius: 4,
+                        },
+                        formatter: '{b}'
+                    },
+                    symbolSize: 0,
+                    data: [{name: series[i].name + '\n' + series[i].pieData.val, value: endPosArr}]
+                });
+
+            legendData.push(series[i].name);
+        }
+        series = series.concat(linesSeries)
+
+        // 计算底座的缩放系数，根据k调整
+        const baseScale = 2; // 原始基础缩放系数
+        const scaleForBase = baseScale * (1 + k); // 动态调整缩放
+        // 最底下圆盘
+        series.push({
+            name: 'mouseoutSeries',
+            type: 'surface',
+            parametric: true,
+            wireframe: {
+                show: false,
+            },
+            itemStyle: {
+                opacity: 0.75,
+                color: 'rgba(51, 135, 146, 0.75)',
+            },
+            parametricEquation: {
+                u: {
+                    min: 0,
+                    max: Math.PI * 2,
+                    step: Math.PI / 20,
+                },
+                v: {
+                    min: 0,
+                    max: Math.PI,
+                    step: Math.PI / 20,
+                },
+                x: function (u, v) {
+                    return ((Math.sin(v) * Math.sin(u) + Math.sin(u)) / Math.PI) * scaleForBase;
+                },
+                y: function (u, v) {
+                    return ((Math.sin(v) * Math.cos(u) + Math.cos(u)) / Math.PI) * scaleForBase;
+                },
+                z: function (u, v) {
+                    return Math.cos(v) > 0 ? -0 : -3.5;
+                },
+            },
+        });
+        series.push({
+            name: 'bottomRing',
+            type: 'surface',
+            parametric: true,
+            wireframe: {
+                show: false,
+            },
+            itemStyle: {
+                opacity: 0.6,
+                color: 'rgba(255, 255, 255, 1)',
+            },
+            parametricEquation: {
+                u: {
+                    min: 0.74,  // 控制环的内径（92%半径）
+                    max: 0.75,     // 外径（100%半径）
+                    step: 0.0001
+                },
+                v: {
+                    min: 0,
+                    max: Math.PI * 2,  // 完整圆周
+                    step: Math.PI / 20
+                },
+                x: function(u, v) {
+                    // 极坐标公式 + 动态缩放
+                    return u * scaleForBase * 1.0 * Math.cos(v);
+                },
+                y: function(u, v) {
+                    return u * scaleForBase * 1.0 * Math.sin(v);
+                },
+                z: function() {
+                    // 保持原有高度差
+                    return -3.6; 
+                }
+            },
+        });
+        let maxHeight = Math.max(...pieData.map(item => item.value)) * heightProportion;
+        series.push({
+            name: 'topRing',
+            type: 'surface',
+            parametric: true,
+            wireframe: {
+                show: false,
+            },
+            itemStyle: {
+                opacity: 0.6,
+                color: 'rgba(255, 255, 255, 1)',
+            },
+            parametricEquation: {
+                u: {
+                    min: 0.54,  // 控制环的内径（92%半径）
+                    max: 0.55,     // 外径（100%半径）
+                    step: 0.0001
+                },
+                v: {
+                    min: 0,
+                    max: Math.PI * 2,  // 完整圆周
+                    step: Math.PI / 20
+                },
+                x: function(u, v) {
+                    // 极坐标公式 + 动态缩放
+                    return u * scaleForBase * 1.0 * Math.cos(v);
+                },
+                y: function(u, v) {
+                    return u * scaleForBase * 1.0 * Math.sin(v);
+                },
+                z: function() {
+                    // 保持原有高度差
+                    return maxHeight + 0.1; 
+                }
+            },
+        });
+        return series;
+    }
+
+    let total = 0
+    dataList.forEach(item => {
+        total += item.val
+    })
+    const series = getPie3D(dataList.map(item => {
+        item.value = Number( (item.val / total * 100).toFixed(2) )
+        return item
+    }), 0);
+
+    // 准备待返回的配置项，把准备好的 legendData、series 传入。
+    option = {
+        backgroundColor: '#2d58e4',
+        xAxis3D: {
+            min: -1.5,
+            max: 1.5,
+        },
+        yAxis3D: {
+            min: -1.5,
+            max: 1.5,
+        },
+        zAxis3D: {
+            min: -1,
+            max: 1,
+        },
+        grid3D: {
+            show: false,
+            boxHeight: 4,
+            bottom: '50%',
+            viewControl: {
+                distance: 380,
+                alpha: 25,
+                beta: 60,
+                autoRotate: true, // 自动旋转
+            },
+        },
+
+        series: series,
+    };

@@ -1,0 +1,163 @@
+      let data = [
+        {
+          name: "咨询类数量",
+          value: 5000,
+          pro: 50,
+        },
+        {
+          name: "投诉类数量",
+          value: 3000,
+          pro: 30,
+        },
+        {
+          name: "评价类数量",
+          value: 2000,
+          pro: 20,
+        },
+      ];
+      const pushZero = (n) => {
+        if (n % 10 == 0) {
+          return n + ".00";
+        } else {
+          return n;
+        }
+      };
+      let colors = ["#3B8CE9", "#5BC374", "#EA6672"];
+      let dataNameMap = {
+        咨询类数量: "zxl",
+        投诉类数量: "tsl",
+        评价类数量: "pjl",
+      };
+      let legendRichs = {
+        title1: {
+          color: "#999999",
+          width: 120,
+          align: "left",
+          height: 14,
+          fontSize: 14,
+          padding: [2, 0, 0, 4],
+        },
+        title2: {
+          height: 14,
+          color: "#999999",
+          fontSize: 14,
+          padding: [2, 0, 0, 0],
+        },
+        zhan: {
+          height: 14,
+        },
+        nsel: {
+          width: 14,
+          height: 14,
+          backgroundColor: "#cccccc8a",
+          borderRadius: 14,
+        },
+        nvalue1: {
+          width: 120,
+          fontSize: 18,
+          color: "#999999",
+          padding: [0, 0, 0, 14 + 4],
+        },
+        nvalue2: {
+          fontSize: 18,
+          color: "#999999",
+        },
+      };
+      let selects = {};
+      let legend = [];
+      const computedLegendRichs = (DATA) => {
+        DATA.map((item, index) => {
+          legend.push(item.name);
+          let mapK = dataNameMap[item.name];
+          selects[item.name] = true;
+          let _color = colors[index];
+
+          let icon = `icon_` + mapK;
+          legendRichs[icon] = {
+            width: 14,
+            height: 14,
+            backgroundColor: _color,
+            borderRadius: 14,
+          };
+
+          let value1 = "value1_" + mapK;
+          let value2 = "value2_" + mapK;
+          legendRichs[value1] = {
+            width: 120,
+            fontSize: 18,
+            color: _color,
+            padding: [0, 0, 0, 14 + 4],
+          };
+          legendRichs[value2] = {
+            fontSize: 18,
+            color: _color,
+          };
+        });
+      };
+
+      computedLegendRichs(data);
+
+      option = {
+        //你的代码
+        color: colors,
+        backgroundColor: "#fff",
+        series: [
+          {
+            type: "pie",
+            radius: ["30%", "35%"],
+            center: ["60%", "50%"],
+            label: {
+              show: false,
+            },
+            data: data,
+            itemStyle: {
+              borderWidth: 2,
+              borderColor: "#fff",
+            },
+            minAngle: 3,
+          },
+        ],
+        legend: [
+          {
+            orient: "vertical",
+            left: "15%",
+            top: "center",
+            icon: "circle",
+            formatter: (leg) => {
+              let item = data.filter((V) => V.name == leg)[0];
+              let mapK = dataNameMap[leg];
+              let icon = "icon_" + mapK;
+              let value1 = "value1_" + mapK;
+              let value2 = "value2_" + mapK;
+              if (selects[leg]) {
+                return `{${icon}|}{title1|${leg}}{title2|占比}\n{zhan|}\n{${value1}|${
+                  item.value
+                }}{${value2}|${pushZero(item.pro)}%}`;
+              } else {
+                // icon灰色
+                return `{nsel|}{title1|${leg}}{title2|占比}\n{zhan|}\n{${value1}|${
+                  item.value
+                }}{${value2}|${pushZero(item.pro)}%}`;
+
+                // 取消选择的全灰色
+                // return `{nsel|}{title1|${leg}}{title2|占比}\n{zhan|}\n{nvalue1|${item.value}}{nvalue2|${pushZero(item.pro)}%}`
+              }
+            }, //14 + 14 + 18
+            itemWidth: 0,
+            itemHeight: 0,
+            padding: 0,
+            itemGap: 30,
+            data: legend,
+            textStyle: {
+              rich: legendRichs,
+            },
+          },
+        ],
+      };
+
+      myChart.on("legendselectchanged", (event) => {
+        selects = event.selected;
+        myChart.setOption({
+          legend: {},
+        });
+      });

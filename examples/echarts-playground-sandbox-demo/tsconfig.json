@@ -1,0 +1,17 @@
+{
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "lib"
+  },
+  "include": ["src/*"],
+  "exclude": ["node_modules"]
+}
