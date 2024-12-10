@@ -13,7 +13,6 @@ const Card = ({ id }: { id: number }) => {
         name: "app1" + id,
         entry: `http://192.168.1.9:8089/test${id}.html`,
         container: domRef.current,
-        props: { brand: "qiankun" },
       });
   }, []);
 

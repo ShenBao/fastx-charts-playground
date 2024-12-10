@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "demo": "cd demo &&  anywhere -p 8089",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
