@@ -15,8 +15,6 @@ const Card = ({ index }: { index: number }) => {
   }, []);
 
   const init = async () => {
-    console.log(item);
-
     if (!item) {
       return;
     }
@@ -33,24 +31,27 @@ const Card = ({ index }: { index: number }) => {
       };
     });
 
-    console.log("==========================");
+    console.log(`========================== ${item.id} - ${item.version}`);
 
     const sandbox = new Sandbox({
       multiMode: true,
     });
 
     scriptsList.forEach((item) => {
-      const { path: scriptSrc, rowCode: scriptText } = item;
+      const { rowCode: scriptText } = item;
       sandbox.execScriptInSandbox(scriptText as string);
     });
-    sandbox.execScriptInSandbox("console.log(window.echarts);");
-    sandbox.execScriptInSandbox("console.log(window.echarts?.version);");
 
-    console.log("sandbox:", sandbox);
+    sandbox.execScriptInSandbox(
+      "console.log('version:', window.echarts?.version);"
+    );
+
     const proxyWindow = sandbox.getSandbox();
     console.log("proxyWindow:", proxyWindow);
 
     const container = domRef.current;
+    console.log("container:", container);
+
     // @ts-ignore
     proxyWindow.container = container;
     // sandbox.execScriptInSandbox('console.log(window.container);');
@@ -80,7 +81,7 @@ const Card = ({ index }: { index: number }) => {
       {item?.scripts?.map((scriptPath) => {
         return <div>{scriptPath}</div>;
       })}
-      <div style={{ width: 400, height: 300 }} ref={domRef}></div>
+      <div style={{ width: "90%", height: 500 }} ref={domRef}></div>
     </div>
   );
 };

@@ -58,25 +58,19 @@ const list: {
   {
     id: "8",
     version: "3.8.0",
-    scripts: [
-      '/dep/echarts/map/js/china.js',
-    ],
+    scripts: ["/dep/echarts/map/js/china.js"],
     code: code8,
   },
   {
     id: "9",
     version: "4.8.0",
-    scripts: [
-      "/dep/echarts-gl@1.1.2/echarts-gl.min.js"
-    ],
+    scripts: ["/dep/echarts-gl@1.1.2/echarts-gl.min.js"],
     code: code9,
   },
   {
     id: "9-error",
     version: "5.6.0",
-    scripts: [
-      "/dep/echarts-gl@1.1.2/echarts-gl.min.js"
-    ],
+    scripts: ["/dep/echarts-gl@1.1.2/echarts-gl.min.js"],
     code: code9,
   },
   {
@@ -92,9 +86,7 @@ const list: {
   {
     id: "12",
     version: "5.5.1",
-    scripts: [
-      "/echarts-gl/2.0.8/echarts-gl.min.js"
-    ],
+    scripts: ["/echarts-gl/2.0.8/echarts-gl.min.js"],
     code: code12,
   },
 ];
