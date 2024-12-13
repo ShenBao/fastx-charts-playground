@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import * as monaco from "monaco-editor";
-import Editor from "@monaco-editor/react";
+import Editor, { loader } from "@monaco-editor/react";
 
 function CodeEditor({
+  ref,
   value,
   onChange,
 }: {
+  ref: any;
   value: string;
   onChange: (v: string | undefined) => void;
 }) {
@@ -13,17 +15,52 @@ function CodeEditor({
     onChange?.(value);
   };
 
+  // useEffect(() => {
+  // monaco.editor.defineTheme("myCustomTheme", {
+  //   base: "vs-dark",
+  //   inherit: true,
+  //   rules: [
+  //     { token: "comment", foreground: "ffa500", fontStyle: "italic" },
+  //     { token: "keyword", foreground: "00ff00" },
+  //   ],
+  //   colors: {},
+  // });
+  // }, []);
+
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const monacoInstanceRef = useRef<typeof monaco | null>(null);
+
+  useImperativeHandle(ref, () => {
+    return {
+      editorRef,
+      monacoInstanceRef,
+    };
+  }, []);
+
   useEffect(() => {
-    monaco.editor.defineTheme("myCustomTheme", {
-      base: "vs-dark",
-      inherit: true,
-      rules: [
-        { token: "comment", foreground: "ffa500", fontStyle: "italic" },
-        { token: "keyword", foreground: "00ff00" },
-      ],
-      colors: {},
+    // 设置语言环境为中文
+    loader.config({
+      "vs/nls": {
+        availableLanguages: {
+          "*": "zh-cn",
+        },
+      },
     });
   }, []);
+
+  // 编辑器挂载时触发
+  const handleEditorDidMount = useCallback(
+    (
+      editor: monaco.editor.IStandaloneCodeEditor,
+      monacoInstance: typeof monaco
+    ) => {
+      // console.log("Monaco instance:", monacoInstance);
+      // console.log("Editor instance:", editor);
+      editorRef.current = editor;
+      monacoInstanceRef.current = monacoInstance;
+    },
+    []
+  );
 
   return (
     <Editor
@@ -37,7 +74,18 @@ function CodeEditor({
         lineDecorationsWidth: 0, // 减少装饰列宽度
         scrollBeyondLastLine: false, // 禁止滚动到最后一行之后
         // minimap: { enabled: false }, // 禁用小地图
+        detectIndentation: false,
+        tabSize: 2,
+        automaticLayout: true,
+        // scrollBeyondMaxLine: false,
+        // theme: 'vs-dark',
+        fontSize: 14,
+        // 基础换行配置
+        // wordWrap: 'on',
+        // indentSize: 2,
+        // tabSize: 2,
       }}
+      onMount={handleEditorDidMount} // 获取编辑器实例
     />
   );
 }

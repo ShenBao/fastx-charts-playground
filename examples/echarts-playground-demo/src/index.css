@@ -93,3 +93,9 @@
   max-height: 340px;
   overflow: auto;
 }
+
+.right-actions {
+  > * {
+    margin-left: 12px;
+  }
+}
