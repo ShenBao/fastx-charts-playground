@@ -1,14 +1,7 @@
 {
-  "name": "fastx-chart-playground",
-  "private": true,
+  "name": "fastx-charts-playground",
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-  },
-  "dependencies": {
-    
-  },
-  "devDependencies": {
-   
-  }
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
 }
