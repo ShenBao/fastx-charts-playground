@@ -43,7 +43,10 @@ const Card = ({ index }: { index: number }) => {
       return;
     }
     const list = [
-      `https://registry.npmmirror.com/@antv/g2/5.2.12/files/dist/g2.min.js`,
+      `https://registry.npmmirror.com/react/18.3.1/files/umd/react.production.min.js`,
+      `https://registry.npmmirror.com/react-dom/18.3.1/files/umd/react-dom.production.min.js`,
+      `https://registry.npmmirror.com/lodash/4.17.21/files/lodash.min.js`,
+      `https://registry.npmmirror.com/@ant-design/plots/2.3.3/files/dist/plots.min.js`,
       ...(item?.scripts || []),
     ];
     const res = await getExternalScripts(list);
@@ -64,33 +67,38 @@ const Card = ({ index }: { index: number }) => {
       sandbox.execScriptInSandbox(scriptText as string);
     });
 
-    // 将 G2 转换为 为 g2，供 编译后的代码使用
-    // 增加自己的全局变量，用于 DEMO 中的依赖，以 G2 为例
-    sandbox.execScriptInSandbox(`
-      window.g2 = window.G2;
-    `);
-
     const proxyWindow = sandbox.getSandbox() as {
-      G2: any;
       container: HTMLDivElement | null;
-      chart: unknown;
     } & Window;
 
     const container = domRef.current;
     proxyWindow.container = container;
 
-    proxyWindow.chart = new proxyWindow.G2.Chart({
-      container,
-    });
+    /**
+     * 增加自己的全局变量，用于 代码 中的依赖，以下为示例
+     */
+    sandbox.execScriptInSandbox(`
+      window.g2 = window.G2;
+      window.plots = window.Plots;
+      window.react = window.React;
+      window.reactDom = window.ReactDOM;
+    `);
+
+    console.log("====================================");
+    console.log("proxyWindow:", proxyWindow);
 
     let compiled;
     try {
       compiled = compile(item.code);
     } catch (e) {
-      console.log(e);
+      console.log("compile error:", e);
     }
+
     if (compiled) {
-      const newCode = compiled.replace(/'container'|"container"/, `container`);
+      const newCode = compiled
+        .replace(`document.getElementById('container')`, `window.container`)
+        .replace(`document.getElementById("container")`, `window.container`);
+
       sandbox.execScriptInSandbox(newCode);
     }
   };
@@ -102,7 +110,11 @@ const Card = ({ index }: { index: number }) => {
   return (
     <div>
       <div>{item?.id}</div>
-      <div style={{ width: "90%", height: 500 }} ref={domRef}></div>
+      <div
+        style={{ width: "90%", height: 500 }}
+        ref={domRef}
+        id="container-x"
+      ></div>
     </div>
   );
 };
