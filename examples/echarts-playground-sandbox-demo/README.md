@@ -1,5 +1,8 @@
-# echarts-playground-sandbox-demo
+# fastx-charts-playground
 
+FastX Charts Playground
+
+[GitHub: https://github.com/ShenBao/fastx-charts-playground](https://github.com/ShenBao/fastx-charts-playground)
 
 
 ## More links

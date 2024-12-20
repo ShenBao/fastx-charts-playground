@@ -19,7 +19,6 @@ FastX Charts Playground
 - ant-design-plots-playground-demo
 - ant-design-graphs-playground-demo
 - bizcharts-playground-demo
-- bizcharts-playground-demo
 - visactor-vchart-playground-demo
 
 
