@@ -12,8 +12,7 @@ import defaultCode from "./defaultCode.txt?raw";
 const { Header, Content } = Layout;
 
 function Playground() {
-
-  const codeEditorRef = useRef({} as any)
+  const codeEditorRef = useRef({} as any);
 
   const [code, setCode] = useState<string | undefined>(defaultCode);
   const [version, setVersion] = useState("5.6.0");
@@ -33,14 +32,15 @@ function Playground() {
   const getVersionOption = () => {
     return getEchartsLibraries().then((res) => {
       const data = res.data.objects[0].package;
-      const versionList = sortVersionsDescending(data?.versions || [])?.map(
-        (it) => {
-          return {
-            value: it,
-            label: it,
-          };
-        }
-      );
+      const versions = (data?.versions || []).filter((v: string) => {
+        return parseInt(v) >= 3;
+      });
+      const versionList = sortVersionsDescending(versions)?.map((it) => {
+        return {
+          value: it,
+          label: it,
+        };
+      });
       setVersionOptions(versionList);
     });
   };
@@ -70,7 +70,9 @@ function Playground() {
   };
 
   const handleRunFormatDocument = () => {
-    codeEditorRef?.current?.editorRef.current?.getAction('editor.action.formatDocument')?.run();
+    codeEditorRef?.current?.editorRef.current
+      ?.getAction("editor.action.formatDocument")
+      ?.run();
   };
 
   const handleRunCode = () => {
@@ -97,26 +99,31 @@ function Playground() {
                 onCancel={handleCancel}
               />
             ) : null}
-            <div className="right-actions" style={{
-              display: "inline-block",
-              float: "right"
-            }}>
-            <Button
-              color="primary" variant="dashed"
-              onClick={handleRunFormatDocument}
+            <div
+              className="right-actions"
+              style={{
+                display: "inline-block",
+                float: "right",
+              }}
             >
-              格式化代码
-            </Button>
-            <Button
-              type="primary"
-              onClick={handleRunCode}
-            >
-              运行
-            </Button>
+              <Button
+                color="primary"
+                variant="dashed"
+                onClick={handleRunFormatDocument}
+              >
+                格式化代码
+              </Button>
+              <Button type="primary" onClick={handleRunCode}>
+                运行
+              </Button>
             </div>
           </Header>
           <Content className="code-content">
-            <CodeEditor ref={codeEditorRef} value={code || ""} onChange={setCode} />
+            <CodeEditor
+              ref={codeEditorRef}
+              value={code || ""}
+              onChange={setCode}
+            />
           </Content>
         </Layout>
       </Splitter.Panel>
