@@ -6,6 +6,7 @@ const chartOptions = [
   { name: "echarts", fileName: "/dist/echarts.min.js" },
   { name: "echarts-gl", fileName: "/dist/echarts-gl.min.js" },
   { name: "@antv/g2", fileName: "/dist/g2.min.js" },
+  { name: "@antv/g2plot", fileName: "/dist/g2plot.min.js" },
   {
     name: "@ant-design/plots",
     fileName: "/dist/plots.min.js",
