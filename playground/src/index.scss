@@ -1,0 +1,24 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#root {
+  height: 100vh;
+}
+
+.app-layout {
+  height: 100%;
+  background-color: transparent;
+}
+
+.app-header,
+.app-footer {
+  background-color: transparent;
+}
+
+.app-header {
+  padding: 0 20px;
+}
+.app-footer {
+  padding: 20px;
+}

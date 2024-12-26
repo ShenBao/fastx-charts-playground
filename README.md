@@ -10,6 +10,7 @@ FastX Charts Playground
 
 ## utils
 
+library files are downloaded and stored in the to 'lib' directory.
 
 ## examples
 
@@ -20,7 +21,7 @@ FastX Charts Playground
 - ant-design-graphs-playground-demo
 - bizcharts-playground-demo
 - visactor-vchart-playground-demo
-
+- ...
 
 
 ## More links
