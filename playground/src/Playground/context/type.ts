@@ -24,4 +24,8 @@ export interface IFastXChartsPlaygroundContext {
    * 编译后的代码
    */
   compiledCode?: string;
+  /**
+   * 代码错误信息
+   */
+  codeErrorInfo?: string;
 }

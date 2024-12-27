@@ -63,7 +63,7 @@ export const formatCode = async (code: string): Promise<string> => {
  */
 export const compileCode = (value: string): string => {
   const { code } = transform(value || "", {
-    filename: "example.tsx",
+    filename: "code.js",
     presets: [
       "react",
       "typescript",

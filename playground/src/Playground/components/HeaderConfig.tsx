@@ -84,15 +84,20 @@ const HeaderConfig: React.FC = () => {
       content: <>查看示例将会清空已输入的代码，继续吗？</>,
       centered: true,
       onOk: () => {
-        const curItem = chartOptions?.find(
-          (it) => it.value === state.chartName
-        );
+        try {
+          const curItem = chartOptions?.find(
+            (it) => it.value === state.chartName
+          );
 
-        setState({
-          chartVersion: curItem?.defaultCodeVersion,
-          code: curItem?.defaultCode || "",
-          compiledCode: compileCode(curItem?.defaultCode || ""),
-        });
+          setState({
+            chartVersion: curItem?.defaultCodeVersion,
+            code: curItem?.defaultCode || "",
+            compiledCode: compileCode(curItem?.defaultCode || ""),
+            codeErrorInfo: "",
+          });
+        } catch (error) {
+          console.log(error);
+        }
       },
     };
     modal.confirm(config);

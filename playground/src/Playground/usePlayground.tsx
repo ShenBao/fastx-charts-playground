@@ -10,7 +10,14 @@ const usePlayground = () => {
   });
 
   const { state, setState } = useContext(FastXChartsPlaygroundContext);
-  const { chartName, chartVersion, code, compiledCode, renderType } = state;
+  const {
+    chartName,
+    chartVersion,
+    code,
+    compiledCode,
+    renderType,
+    codeErrorInfo,
+  } = state;
 
   console.log("====================================");
   console.log("state:", state);
@@ -18,6 +25,7 @@ const usePlayground = () => {
   const handleCodeEditorChange = (newCode: string) => {
     setState({
       code: newCode,
+      codeErrorInfo: "",
     });
   };
 
@@ -92,11 +100,16 @@ const usePlayground = () => {
       }
     } catch (error) {
       console.log(error);
+      setState({
+        ...state,
+        codeErrorInfo: error?.message || error,
+      });
     }
   };
 
-  const handleRunCode = () => {
+  const handleRunCode = async () => {
     try {
+      await formatCode(code || "");
       const compiledCode = compileCode(code);
       setState({
         ...state,
@@ -104,24 +117,37 @@ const usePlayground = () => {
       });
     } catch (error) {
       console.log(error);
+      setState({
+        ...state,
+        codeErrorInfo: error?.message || error,
+      });
     }
   };
 
+  const handleCloseErrorInfo = () => {
+    setState({
+      ...state,
+      codeErrorInfo: "",
+    });
+  };
+
   return {
-    showModal,
-    isModalOpen,
-    scripts,
     chartName,
     chartVersion,
     code,
-    compiledCode,
     renderType,
+    scripts,
+    compiledCode,
+    codeErrorInfo,
     codeEditorRef,
+    isModalOpen,
+    showModal,
     handleCancel,
     handleOk,
     handleCodeEditorChange,
     handleRunFormatDocument,
     handleRunCode,
+    handleCloseErrorInfo,
   };
 };
 

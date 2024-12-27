@@ -1,30 +1,32 @@
 import { App as AntdApp, Button, Layout, Splitter } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 
 import ChartCodeEditor from "./components/ChartCodeEditor";
 import ChartCodeViewer from "./components/ChartCodeViewer";
-import ScriptsModal from "./components/ScriptsModal";
 import HeaderConfig from "./components/HeaderConfig";
+import ScriptsModal from "./components/ScriptsModal";
 import usePlayground from "./usePlayground";
 
 const { Header, Content } = Layout;
 
 const Playground = () => {
   const {
-    showModal,
-    isModalOpen,
-    scripts,
     chartName,
     chartVersion,
     code,
-    compiledCode,
     renderType,
+    scripts,
+    compiledCode,
+    codeErrorInfo,
     codeEditorRef,
+    isModalOpen,
+    showModal,
     handleCancel,
     handleOk,
     handleCodeEditorChange,
     handleRunFormatDocument,
     handleRunCode,
+    handleCloseErrorInfo,
   } = usePlayground();
 
   return (
@@ -96,7 +98,7 @@ const Playground = () => {
                   </span>
                 </Header>
                 <Content className="run-content">
-                  <div style={{ height: "100%" }}>
+                  <div style={{ height: "100%", position: "relative" }}>
                     <ChartCodeViewer
                       chartName={chartName}
                       chartVersion={chartVersion}
@@ -104,6 +106,16 @@ const Playground = () => {
                       compiledCode={compiledCode}
                       renderType={renderType}
                     />
+                    {codeErrorInfo ? (
+                      <div className="code-error-wrapper">
+                        <div className="code-error-header">
+                          <CloseOutlined onClick={handleCloseErrorInfo} />
+                        </div>
+                        <div className="code-error-info">
+                          <pre>{codeErrorInfo}</pre>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </Content>
               </Layout>
