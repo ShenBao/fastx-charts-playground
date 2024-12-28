@@ -134,14 +134,6 @@ const HeaderConfig: React.FC = () => {
         <Tag color="blue">
           {state.chartName === "echarts" ? "option" : "完整代码"}
         </Tag>
-        {/* <Select
-          defaultValue="sandbox"
-          style={{ width: 120 }}
-          options={[
-            { value: "all", label: "完整代码" },
-            { value: "option", label: "option" },
-          ]}
-        /> */}
       </Form.Item>
 
       <Form.Item

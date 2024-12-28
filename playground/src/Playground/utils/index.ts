@@ -67,11 +67,9 @@ export const compileCode = (value: string): string => {
     presets: [
       "react",
       "typescript",
-      // es5 ? "es2015" : "es2016", // 根据 es5 参数选择目标版本
       "env",
       ["stage-3", { decoratorsBeforeExport: true }],
     ].filter(Boolean),
-    // plugins: ["transform-modules-umd",],
     plugins: [
       [
         "transform-modules-umd",
@@ -88,7 +86,8 @@ export const compileCode = (value: string): string => {
             bizcharts: "BizCharts",
             "@visactor/vchart": "VChart",
           },
-          exactGlobals: true, // 确保插件严格使用指定的全局变量名称
+          // 确保插件严格使用指定的全局变量名称
+          exactGlobals: true,
         },
       ],
     ],

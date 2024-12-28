@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { CustomRef } from "./components/ChartCodeEditor";
-import { compileCode, formatCode } from "./utils";
 import { FastXChartsPlaygroundContext } from "./context";
+import { compileCode, formatCode } from "./utils";
 
 const usePlayground = () => {
   const codeEditorRef = useRef<CustomRef["current"]>({

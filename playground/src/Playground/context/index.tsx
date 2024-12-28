@@ -34,8 +34,8 @@ export const FastXChartsPlaygroundContextProvider = ({
       chartName: defaultItem?.value,
       chartVersion: defaultItem.defaultCodeVersion,
       scripts: [],
-      // renderType: "sandbox",
-      renderType: "iframe" ,
+      renderType: "sandbox",
+      // renderType: "iframe" ,
       code: defaultItem?.defaultCode,
       compiledCode: compileCode(defaultItem?.defaultCode)
     });

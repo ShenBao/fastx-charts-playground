@@ -1,5 +1,6 @@
 import resetCSS from "./reset.css?raw";
 import stylesCSS from "./styles.css?raw";
+import errorCSS from "./error.css?raw";
 
 const compressCSS = (css: string) => {
   return css
@@ -13,6 +14,7 @@ const compressCSS = (css: string) => {
 const styles = compressCSS(`
   ${resetCSS}
   ${stylesCSS}
+  ${errorCSS}
 `);
 
 export default styles;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
-import Editor, { loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
+import Editor, { loader } from "@monaco-editor/react";
 
 // 设置 loader 配置使用本地的 monaco-editor 模块
 loader.config({
@@ -42,7 +42,6 @@ const ChartCodeEditor = ({
 
   useEffect(() => {
     loader.config({
-      // paths: { vs: msgZhCn},
       "vs/nls": {
         availableLanguages: {
           "*": "zh-cn",
@@ -61,8 +60,6 @@ const ChartCodeEditor = ({
       // console.log("Editor instance:", editor);
       editorRef.current = editor;
       monacoInstanceRef.current = monacoInstance;
-      // ref.current.editorRef.current = editor;
-      // ref.current.monacoInstanceRef.current = monacoInstance;
       const editorContainer = editor.getDomNode();
       if (editorContainer) {
         editorContainer.addEventListener("contextmenu", (e) => {

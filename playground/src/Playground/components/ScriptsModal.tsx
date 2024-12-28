@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import { Modal, Form, Input, Button } from "antd";
 import { MinusCircleOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
 
 const ScriptsModal = ({
   open,

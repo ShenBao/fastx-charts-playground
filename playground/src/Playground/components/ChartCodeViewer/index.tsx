@@ -1,7 +1,7 @@
 import { FC } from "react";
 import ViewerWithIframe from "./ViewerWithIframe";
-import { getChartLibUrl, getPreDependencyScriptUrls } from "./utils";
 import ViewerWithSandbox from "./ViewerWithSandbox";
+import { getChartLibUrl, getPreDependencyScriptUrls } from "./utils";
 
 interface IChartCodeViewerProps {
   chartName?: string;
@@ -41,6 +41,7 @@ const ChartCodeViewer: FC<IChartCodeViewerProps> = (props) => {
 
     return (
       <ViewerWithSandbox
+        key={chartName}
         chartName={chartName}
         scripts={viewScripts}
         compiledCode={compiledCode}

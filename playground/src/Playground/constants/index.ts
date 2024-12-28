@@ -58,5 +58,3 @@ export const chartOptions = [
   },
   { value: "user_custom", label: "自定义" },
 ];
-
-console.log(chartOptions);
