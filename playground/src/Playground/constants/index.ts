@@ -5,6 +5,7 @@ import defaultCode_ant_design_plots from "../chartDefaultCode/ant-design-plots.t
 import defaultCode_ant_design_graphs from "../chartDefaultCode/ant-design-graphs.txt?raw";
 import defaultCode_bizcharts from "../chartDefaultCode/bizcharts.txt?raw";
 import defaultCode_visactor_vchart from "../chartDefaultCode/visactor_vchart.txt?raw";
+import defaultCode_custom_echarts from "../chartDefaultCode/custom_echarts.txt?raw";
 
 export const chartOptions = [
   {
@@ -56,5 +57,13 @@ export const chartOptions = [
     defaultCode: defaultCode_visactor_vchart,
     defaultCodeVersion: "1.13.8",
   },
-  { value: "user_custom", label: "自定义" },
+  {
+    value: "user_custom",
+    label: "自定义",
+    scripts: [
+      "/lib/echarts/5.5.0/echarts.min.js",
+      "/lib/echarts/5.5.1/echarts.min.js",
+    ],
+    defaultCode: defaultCode_custom_echarts,
+  },
 ];

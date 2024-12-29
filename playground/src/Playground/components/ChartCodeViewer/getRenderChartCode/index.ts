@@ -59,7 +59,7 @@ const getRenderChartCode = (chartName: string, compiledCode: string) => {
         ${chartCode}
         showErrorInfo(null);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         var msg = error && error.message ? error.message : error;
         showErrorInfo(String(msg));
     }

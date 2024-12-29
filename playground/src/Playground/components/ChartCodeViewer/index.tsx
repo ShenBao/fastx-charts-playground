@@ -20,7 +20,6 @@ const ChartCodeViewer: FC<IChartCodeViewerProps> = (props) => {
       getChartLibUrl(chartName, chartVersion),
       ...scripts,
     ]?.filter(Boolean);
-    console.log("viewScripts:", viewScripts);
 
     return (
       <ViewerWithIframe
@@ -37,7 +36,6 @@ const ChartCodeViewer: FC<IChartCodeViewerProps> = (props) => {
       getChartLibUrl(chartName, chartVersion),
       ...scripts,
     ]?.filter(Boolean);
-    console.log("viewScripts:", viewScripts);
 
     return (
       <ViewerWithSandbox

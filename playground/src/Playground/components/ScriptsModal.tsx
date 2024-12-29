@@ -27,7 +27,7 @@ const ScriptsModal = ({
       const scripts = form.getFieldValue("scripts");
       onOk(scripts);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

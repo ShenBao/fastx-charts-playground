@@ -33,11 +33,11 @@ export const FastXChartsPlaygroundContextProvider = ({
     setState({
       chartName: defaultItem?.value,
       chartVersion: defaultItem.defaultCodeVersion,
-      scripts: [],
+      scripts: Array.isArray(defaultItem.scripts) ? defaultItem.scripts : [],
       renderType: "sandbox",
       // renderType: "iframe" ,
       code: defaultItem?.defaultCode,
-      compiledCode: compileCode(defaultItem?.defaultCode)
+      compiledCode: compileCode(defaultItem?.defaultCode),
     });
   }, []);
 

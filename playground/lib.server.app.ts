@@ -11,8 +11,6 @@ const app = new Koa();
 const PORT = 8866;
 const ROOT_DIR = path.join(__dirname, "../utils/lib");
 
-console.log("ROOT_DIR:", ROOT_DIR);
-
 app.use(serve(ROOT_DIR));
 
 app.listen(PORT, () => {

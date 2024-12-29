@@ -16,8 +16,6 @@ const ViewerWithIframe = (props: {
       compiledCode,
     });
 
-    console.log("viewIframeCode:", viewIframeCode);
-
     setIframeCode(viewIframeCode);
   }, [chartName, scripts, compiledCode]);
 

@@ -13,9 +13,10 @@ const usePlayground = () => {
   const {
     chartName,
     chartVersion,
+    renderType,
+    scripts,
     code,
     compiledCode,
-    renderType,
     codeErrorInfo,
   } = state;
 
@@ -29,39 +30,6 @@ const usePlayground = () => {
     });
   };
 
-  // const [versionOptions, setVersionOptions] = useState<SelectProps["options"]>(
-  //   []
-  // );
-  const [scripts, setScripts] = useState<string[]>([
-    // "https://unpkg.com/echarts-liquidfill@2.0.6/dist/echarts-liquidfill.min.js",
-  ]);
-
-  // const [iframeCode, setIframeCode] = useState(``);
-
-  // const getVersionOption = () => {
-  //   return getEchartsLibraries().then((res) => {
-  //     const data = res.data.objects[0].package;
-  //     const versionList = sortVersionsDescending(data?.versions || [])?.map(
-  //       (it) => {
-  //         return {
-  //           value: it,
-  //           label: it,
-  //         };
-  //       }
-  //     );
-  //     setVersionOptions(versionList);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getVersionOption();
-  // }, []);
-
-  // useEffect(() => {
-  //   const viewIframeCode = compoutedSrcDoc(chartVersion, scripts, code);
-  //   setIframeCode(viewIframeCode);
-  // }, [version]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -69,7 +37,10 @@ const usePlayground = () => {
   };
 
   const handleOk = (newScripts: string[]) => {
-    setScripts(newScripts);
+    setState({
+      ...state,
+      scripts: newScripts,
+    });
     setIsModalOpen(false);
   };
 
@@ -99,7 +70,7 @@ const usePlayground = () => {
         }, 200);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setState({
         ...state,
         codeErrorInfo: error?.message || error,
@@ -116,7 +87,7 @@ const usePlayground = () => {
         compiledCode,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setState({
         ...state,
         codeErrorInfo: error?.message || error,

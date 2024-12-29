@@ -91,12 +91,13 @@ const HeaderConfig: React.FC = () => {
 
           setState({
             chartVersion: curItem?.defaultCodeVersion,
+            scripts: Array.isArray(curItem.scripts) ? curItem.scripts : [],
             code: curItem?.defaultCode || "",
             compiledCode: compileCode(curItem?.defaultCode || ""),
             codeErrorInfo: "",
           });
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       },
     };
