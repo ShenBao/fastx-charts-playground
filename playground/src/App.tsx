@@ -1,4 +1,5 @@
 import { Button, Layout } from "antd";
+import { GithubOutlined } from "@ant-design/icons";
 import Playground from "./Playground";
 
 const { Header, Footer, Content } = Layout;
@@ -7,7 +8,20 @@ function App() {
   return (
     <Layout className="app-layout">
       <Header className="app-header">
-        <h1>FastX Charts Playground</h1>
+        <div className="logo">
+          <h1>FastX Charts Playground</h1>
+        </div>
+        <div className="actions">
+          <Button
+            type="link"
+            key="github"
+            href="https://github.com/ShenBao/fastx-charts-playground"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <GithubOutlined />
+          </Button>
+        </div>
       </Header>
       <Content className="app-content">
         <Playground />

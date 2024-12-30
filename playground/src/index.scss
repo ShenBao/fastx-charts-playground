@@ -18,6 +18,18 @@
 
 .app-header {
   padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .ant-btn {
+      padding-right: 0;
+      font-size: 20px;
+      color: #000;
+    }
+  }
 }
 .app-footer {
   padding: 20px;

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Button, Form, Select, Tag, App } from "antd";
 
-import { chartOptions } from "../constants";
-import { FastXChartsPlaygroundContext } from "../context";
-import { IFastXChartsPlaygroundContext } from "../context/type";
-import { compileCode } from "../utils";
+import { chartOptions } from "../../constants";
+import { FastXChartsPlaygroundContext } from "../../context";
+import { IFastXChartsPlaygroundContext } from "../../context/type";
+import { compileCode } from "../../utils";
 
 const HeaderConfig: React.FC = () => {
   const { modal } = App.useApp();

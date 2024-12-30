@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getExternalScripts } from "../../utils/getExternalScripts";
 import Sandbox from "../../utils/Sandbox";
-import "./getIframeSrcDoc/error.css";
 import getRenderChartCode from "./getRenderChartCode";
+import "./getIframeSrcDoc/error.css";
 
 const ViewerWithSandbox = (props: {
   chartName: string;
@@ -36,6 +36,8 @@ const ViewerWithSandbox = (props: {
 
     const proxyWindow = sandbox.getSandbox();
     const container = domContainerRef.current;
+    // TODO: G2、@visactor/vchart 会重复堆叠，渲染前先清空一下
+    container.innerHTML = '';
     proxyWindow.container = container;
     proxyWindow.mountNode = container;
     proxyWindow.showErrorInfo = showErrorInfo;
@@ -71,7 +73,7 @@ const ViewerWithSandbox = (props: {
 
   return (
     <div style={{ height: "100%" }}>
-      <div style={{ height: "100%" }} ref={domContainerRef}></div>
+      <div style={{ height: "100%" }} className="render-dom-container" ref={domContainerRef}></div>
       {errorInfo ? (
         <div className="error-wrapper sandbox">
           <div className="error-content">
