@@ -4,6 +4,7 @@ import monacoEditorEsmPlugin from "vite-plugin-monaco-editor-esm";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/fastx-charts-playground/",
   server: {
     proxy: {
       "/lib": {

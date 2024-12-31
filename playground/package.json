@@ -7,8 +7,10 @@
     "lib-server": "npx tsx lib.server.app.ts",
     "dev": "npm run lib-server & vite",
     "build": "tsc -b && vite build",
+    "postbuild": "cp -r ../utils/lib/ ./dist/lib/",
     "lint": "eslint .",
-    "cp-lib": "cp -r ../utils/lib/ ./public/lib/"
+    "cp-lib": "cp -r ../utils/lib/ ./public/lib/",
+    "deploy": "gh-pages -d dist --no-history"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -29,12 +31,14 @@
     "@eslint/js": "^9.21.0",
     "@types/koa": "^2.15.0",
     "@types/koa-static": "^4.0.4",
+    "@types/node": "^22.13.13",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
+    "gh-pages": "^6.3.0",
     "globals": "^15.15.0",
     "koa": "^2.16.0",
     "koa-static": "^5.0.0",

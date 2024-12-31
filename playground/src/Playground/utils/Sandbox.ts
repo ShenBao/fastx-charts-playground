@@ -1,5 +1,3 @@
-// https://github.com/ice-lab/icestark/blob/master/packages/sandbox/src/index.ts
-
 export interface SandboxProps {
   multiMode?: boolean | undefined;
 }

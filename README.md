@@ -1,12 +1,14 @@
 # fastx-charts-playground
 
-FastX Charts Playground
+[FastX Charts Playground](fastx-charts-playground)
 
 ## playground
 
+在线地址：[FastX Charts Playground](fastx-charts-playground)
 
 ## packages
 
+TODO ...
 
 ## utils
 
