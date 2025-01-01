@@ -2,8 +2,7 @@
 
 FastX Charts Playground
 
-[GitHub: https://github.com/ShenBao/fastx-charts-playground](https://github.com/ShenBao/fastx-charts-playground)
-
+在线地址：[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
 
 ## More links
 
