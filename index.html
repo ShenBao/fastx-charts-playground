@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>self["MonacoEnvironment"] = (function (paths) {
+          return {
+            globalAPI: false,
+            getWorkerUrl : function (moduleId, label) {
+              var result =  paths[label];
+              if (/^((http:)|(https:)|(file:)|(\/\/))/.test(result)) {
+                var currentUrl = String(window.location);
+                var currentOrigin = currentUrl.substr(0, currentUrl.length - window.location.hash.length - window.location.search.length - window.location.pathname.length);
+                if (result.substring(0, currentOrigin.length) !== currentOrigin) {
+                  var js = '/*' + label + '*/importScripts("' + result + '");';
+                  var blob = new Blob([js], { type: 'application/javascript' });
+                  return URL.createObjectURL(blob);
+                }
+              }
+              return result;
+            }
+          };
+        })({
+  "editorWorkerService": "/fastx-charts-playground/monacoeditorwork/editor.worker.bundle.js",
+  "css": "/fastx-charts-playground/monacoeditorwork/css.worker.bundle.js",
+  "html": "/fastx-charts-playground/monacoeditorwork/html.worker.bundle.js",
+  "json": "/fastx-charts-playground/monacoeditorwork/json.worker.bundle.js",
+  "typescript": "/fastx-charts-playground/monacoeditorwork/ts.worker.bundle.js",
+  "javascript": "/fastx-charts-playground/monacoeditorwork/ts.worker.bundle.js",
+  "less": "/fastx-charts-playground/monacoeditorwork/css.worker.bundle.js",
+  "scss": "/fastx-charts-playground/monacoeditorwork/css.worker.bundle.js",
+  "handlebars": "/fastx-charts-playground/monacoeditorwork/html.worker.bundle.js",
+  "razor": "/fastx-charts-playground/monacoeditorwork/html.worker.bundle.js"
+});</script>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/fastx-charts-playground/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FastX Charts Playground - GitHub@ShenBao</title>
+    <script type="module" crossorigin src="/fastx-charts-playground/assets/index-bQ-f_Vpo.js"></script>
+    <link rel="modulepreload" crossorigin href="/fastx-charts-playground/assets/monaco-editor-DG8dGnyH.js">
+    <link rel="stylesheet" crossorigin href="/fastx-charts-playground/assets/monaco-editor-C1kGq7h3.css">
+    <link rel="stylesheet" crossorigin href="/fastx-charts-playground/assets/index-V2ovYQa6.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
