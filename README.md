@@ -1,10 +1,10 @@
 # fastx-charts-playground
 
-[FastX Charts Playground](fastx-charts-playground)
+[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
 
 ## playground
 
-在线地址：[FastX Charts Playground](fastx-charts-playground)
+在线地址：[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
 
 ## packages
 

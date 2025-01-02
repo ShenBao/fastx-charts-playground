@@ -7,6 +7,8 @@ import defaultCode_bizcharts from "../chartDefaultCode/bizcharts.txt?raw";
 import defaultCode_visactor_vchart from "../chartDefaultCode/visactor_vchart.txt?raw";
 import defaultCode_custom_echarts from "../chartDefaultCode/custom_echarts.txt?raw";
 
+const isDev = process.env.NODE_ENV === "development";
+
 export const chartOptions = [
   {
     value: "echarts",
@@ -67,3 +69,14 @@ export const chartOptions = [
     defaultCode: defaultCode_custom_echarts,
   },
 ];
+
+console.log("isDev:", isDev);
+
+// if (isDev) {
+  chartOptions.forEach((option) => {
+    option.scriptUrl = "." + option.scriptUrl;
+    if (option.scripts) {
+      option.scripts = option.scripts.map((url) => "." + url);
+    }
+  });
+// }
