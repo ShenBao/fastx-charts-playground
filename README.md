@@ -1,10 +1,10 @@
 # fastx-charts-playground
 
-[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
+在线地址：[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
 
 ## playground
 
-在线地址：[FastX Charts Playground](https://shenbao.github.io/fastx-charts-playground/)
+[fastx-charts-playground](https://github.com/ShenBao/fastx-charts-playground/)
 
 ## packages
 
@@ -24,7 +24,6 @@ library files are downloaded and stored in the to 'lib' directory.
 - bizcharts-playground-demo
 - visactor-vchart-playground-demo
 - ...
-
 
 ## More links
 
