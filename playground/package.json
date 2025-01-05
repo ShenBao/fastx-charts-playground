@@ -43,6 +43,7 @@
     "koa": "^2.16.0",
     "koa-static": "^5.0.0",
     "sirv": "^3.0.1",
+    "tsx": "^4.19.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
