@@ -19,8 +19,17 @@
   float: right;
 }
 
+.code-layout {
+  background: rgb(255, 255, 255);
+  height: 100%;
+  padding: 0px 15px 15px 15px;
+}
+
 .code-content {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin: 10px 0 0 0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .run-layout {
@@ -55,6 +64,8 @@
 .run-content {
   background: rgb(255, 255, 255);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .view-iframe {
@@ -100,7 +111,6 @@
 }
 .code-error-header {
   text-align: right;
-
 }
 .code-error-info {
   flex: 1;

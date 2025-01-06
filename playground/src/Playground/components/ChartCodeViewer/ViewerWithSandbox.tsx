@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSize } from "ahooks";
 import { getExternalScripts } from "../../utils/getExternalScripts";
 import Sandbox from "../../utils/Sandbox";
 import getRenderChartCode from "./getRenderChartCode";
@@ -14,6 +15,7 @@ const ViewerWithSandbox = (props: {
   const domContainerRef = useRef<HTMLDivElement>(null);
   // @ts-ignore
   const sandboxRef = useRef<unknown>();
+  const size = useSize(domContainerRef);
 
   const [errorInfo, setErrorInfo] = useState("");
 
@@ -37,7 +39,7 @@ const ViewerWithSandbox = (props: {
     const proxyWindow = sandbox.getSandbox();
     const container = domContainerRef.current;
     // TODO: G2、@visactor/vchart 会重复堆叠，渲染前先清空一下
-    container.innerHTML = '';
+    container.innerHTML = "";
     proxyWindow.container = container;
     proxyWindow.mountNode = container;
     proxyWindow.showErrorInfo = showErrorInfo;
@@ -65,7 +67,14 @@ const ViewerWithSandbox = (props: {
     const inlineCode = getRenderChartCode(chartName, compiledCode);
 
     sandbox.execScriptInSandbox(inlineCode);
-  }, [chartName, scripts, compiledCode, showErrorInfo]);
+  }, [
+    size?.width,
+    size?.height,
+    chartName,
+    scripts,
+    compiledCode,
+    showErrorInfo,
+  ]);
 
   useEffect(() => {
     renderChart();
@@ -73,7 +82,11 @@ const ViewerWithSandbox = (props: {
 
   return (
     <div style={{ height: "100%" }}>
-      <div style={{ height: "100%" }} className="render-dom-container" ref={domContainerRef}></div>
+      <div
+        style={{ height: "100%" }}
+        className="render-dom-container"
+        ref={domContainerRef}
+      ></div>
       {errorInfo ? (
         <div className="error-wrapper sandbox">
           <div className="error-content">

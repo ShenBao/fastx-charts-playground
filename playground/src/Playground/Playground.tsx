@@ -42,8 +42,8 @@ const Playground = () => {
               boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Splitter.Panel defaultSize="50%" min="40%" max="70%">
-              <Layout style={{ height: "100%" }}>
+            <Splitter.Panel defaultSize="50%" min="20%" max="70%">
+              <Layout className="code-layout">
                 <Header className="code-header">
                   <Button
                     color="primary"
@@ -89,7 +89,7 @@ const Playground = () => {
                 </Content>
               </Layout>
             </Splitter.Panel>
-            <Splitter.Panel min="40%">
+            <Splitter.Panel min="30%">
               <Layout className="run-layout">
                 <Header className="run-header">
                   <span>
