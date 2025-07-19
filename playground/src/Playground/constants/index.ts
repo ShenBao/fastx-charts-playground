@@ -70,11 +70,11 @@ export const chartOptions = [
   },
 ];
 
-console.log("isDev:", isDev);
-
 // if (isDev) {
   chartOptions.forEach((option) => {
-    option.scriptUrl = "." + option.scriptUrl;
+    if (option.scriptUrl) {
+      option.scriptUrl = "." + option.scriptUrl;
+    }
     if (option.scripts) {
       option.scripts = option.scripts.map((url) => "." + url);
     }

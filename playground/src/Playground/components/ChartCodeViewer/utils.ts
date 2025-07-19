@@ -1,6 +1,9 @@
 import { chartOptions } from "../../constants";
 
 export const getChartLibUrl = (chartName: string, chartVersion: string) => {
+  if (!chartName || chartName === "user_custom") {
+    return null;
+  }
   const item = chartOptions?.find((it) => it.value === chartName);
   return item?.scriptUrl?.replace("${version}", chartVersion);
 };
