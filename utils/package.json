@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init": "npx tsx src/index.ts",
     "echarts": "npx tsx src/echarts.ts",
     "echarts-gl": "npx tsx src/echarts-gl.ts"
   },

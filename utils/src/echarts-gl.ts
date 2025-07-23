@@ -1,4 +1,4 @@
-import fetch, { Response } from "node-fetch"; // 确保从 'node-fetch' 导入 Response 类型
+import fetch, { Response } from "node-fetch";
 import * as fs from "fs-extra";
 import * as path from "path";
 
@@ -13,10 +13,9 @@ function compareVersions(v1: string, v2: string): number {
     if ((mainVersion1[i] || 0) < (mainVersion2[i] || 0)) return 1;
   }
 
-  // If main versions are equal, we then compare pre-release tags.
-  if (v1Parts.length === 1 && v2Parts.length === 1) return 0; // both have no pre-release tag
-  if (v1Parts.length === 1) return -1; // only v2 has a pre-release tag
-  if (v2Parts.length === 1) return 1; // only v1 has a pre-release tag
+  if (v1Parts.length === 1 && v2Parts.length === 1) return 0;
+  if (v1Parts.length === 1) return -1;
+  if (v2Parts.length === 1) return 1;
 
   const preReleaseCompare = v1Parts[1].localeCompare(v2Parts[1]);
   if (preReleaseCompare !== 0) return preReleaseCompare;
@@ -61,11 +60,10 @@ async function downloadFile(
   outputPath: string,
   outputLocationPath: string
 ): Promise<void> {
-  const response: Response = await fetch(url); // 添加类型注解
-  // 检查响应状态是否为 404 Not Found
+  const response: Response = await fetch(url);
   if (response.status === 404) {
     console.log("资源未找到，不生成任何内容。");
-    return; // 直接返回，不做进一步处理
+    return;
   }
   if (!response.ok) {
     throw new Error(`Unexpected response ${response.statusText}`);

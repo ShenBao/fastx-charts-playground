@@ -1,4 +1,4 @@
-import fetch, { Response } from "node-fetch"; // 确保从 'node-fetch' 导入 Response 类型
+import fetch, { Response } from "node-fetch";
 import * as fs from "fs-extra";
 import * as path from "path";
 
@@ -98,11 +98,10 @@ async function downloadFile(
   outputPath: string,
   outputLocationPath: string
 ): Promise<void> {
-  const response: Response = await fetch(url); // 添加类型注解
-  // 检查响应状态是否为 404 Not Found
+  const response: Response = await fetch(url);
   if (response.status === 404) {
     console.log("资源未找到，不生成任何内容。");
-    return; // 直接返回，不做进一步处理
+    return;
   }
   if (!response.ok) {
     throw new Error(`Unexpected response ${response.statusText}`);
@@ -132,11 +131,16 @@ const fetchPkg = async (index: number) => {
     // const url = `https://registry.npmmirror.com/echarts/${version}/files/dist/echarts.min.js`;
     // const url = `https://registry.npmmirror.com/${name}/${version}/files${fileName}`;
 
-    // https://www.jsdelivr.com/?spm=5176.28103460.0.0.297c451eI86zQ6
-    // https://unpkg.com/?spm=5176.28103460.0.0.297c451eI86zQ6
-    // https://www.jsdelivr.com/?spm=5176.28103460.0.0.297c451eI86zQ6
+    // https://www.jsdelivr.com
+    // https://unpkg.com
+    // https://esm.run
+    // https://cdn.skypack.dev
 
-    const url = `https://cdn.jsdelivr.net/npm/${name}@${version}${fileName}`;
+    // const url = `https://cdn.jsdelivr.net/npm/${name}@${version}${fileName}`;
+    const url = `https://unpkg.com/${name}@${version}${fileName}`;
+    
+    // const url = `https://registry.npmmirror.com/${name}/${version}/files${fileName}`;
+
     const outputPath = path.join(__dirname, "..", `lib/${name}`, version);
 
     console.log("====================================");
