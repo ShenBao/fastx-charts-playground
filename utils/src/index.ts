@@ -1,4 +1,4 @@
-import fetch, { Response } from "node-fetch";
+import fetch, { type Response } from "node-fetch";
 import * as fs from "fs-extra";
 import * as path from "path";
 
